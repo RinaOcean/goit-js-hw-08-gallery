@@ -82,10 +82,11 @@ const onEscPress = (event) => {
 
 const onRightPress = (event) => {
   if (event.code === "ArrowRight") {
-    lightboxImgRef.setAttribute("src", `${images[imgActiveIndx + 1].original}`);
-    imgActiveIndx += 1;
+    window.addEventListener("keydown", onLeftPress);
+    imgActiveIndx++;
+    lightboxImgRef.setAttribute("src", `${images[imgActiveIndx].original}`);
   }
-  if (imgActiveIndx >= images.length - 1) {
+  if (imgActiveIndx === images.length - 1) {
     window.removeEventListener("keydown", onRightPress);
     window.addEventListener("keydown", onLeftPress);
   }
@@ -97,8 +98,9 @@ const onRightPress = (event) => {
 
 const onLeftPress = (event) => {
   if (event.code === "ArrowLeft") {
-    lightboxImgRef.setAttribute("src", `${images[imgActiveIndx - 1].original}`);
-    imgActiveIndx -= 1;
+    window.addEventListener("keydown", onRightPress);
+    imgActiveIndx--;
+    lightboxImgRef.setAttribute("src", `${images[imgActiveIndx].original}`);
   }
   if (imgActiveIndx === 0) {
     window.removeEventListener("keydown", onLeftPress);
