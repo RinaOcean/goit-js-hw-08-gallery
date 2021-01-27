@@ -30,7 +30,7 @@ const galleryRef = document.querySelector(".js-gallery");
 const createGalleryElements = (image, indx) => {
   galleryRef.insertAdjacentHTML(
     "beforeend",
-    `<li class="gallery__item"><a class="gallery__link" href=${image.original}><img class="gallery__image" src=${image.preview} data-source=${image.original} data-index=${indx} alt=${image.description}></a></li>`
+    `<li class="gallery__item"><a class="gallery__link" href=${image.original}><img class="gallery__image" src=${image.preview} data-source=${image.original} data-index=${indx} alt='${image.description}'></a></li>`
   );
 };
 
@@ -89,6 +89,10 @@ const onRightPress = (event) => {
     window.removeEventListener("keydown", onRightPress);
     window.addEventListener("keydown", onLeftPress);
   }
+  if (imgActiveIndx < images.length - 1) {
+    window.addEventListener("keydown", onRightPress);
+  }
+  console.log(imgActiveIndx);
 };
 
 const onLeftPress = (event) => {
@@ -100,6 +104,10 @@ const onLeftPress = (event) => {
     window.removeEventListener("keydown", onLeftPress);
     window.addEventListener("keydown", onRightPress);
   }
+  if (imgActiveIndx > 0) {
+    window.addEventListener("keydown", onLeftPress);
+  }
+  console.log(imgActiveIndx);
 };
 
 galleryRef.addEventListener("click", getBigImgUrl);
