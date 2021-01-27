@@ -1,8 +1,8 @@
 import images from "./gallery-items.js";
 
-const galleryRef = document.querySelector(".js-gallery");
-
 // ДОБАВЛЕНИЕ РАЗМЕТКИ ВАРИАНТ 1
+// const galleryRef = document.querySelector(".js-gallery");
+
 // const createGalleryElements = (image) => {
 //   const listRef = document.createElement("li");
 //   listRef.classList.add("gallery__item");
@@ -25,6 +25,8 @@ const galleryRef = document.querySelector(".js-gallery");
 // galleryRef.append(...galleryListing);
 // ---------------------------------------------------------------------------------
 // ДОБАВЛЕНИЕ РАЗМЕТКИ ВАРИАНТ 2
+const galleryRef = document.querySelector(".js-gallery");
+
 const createGalleryElements = (image, indx) => {
   galleryRef.insertAdjacentHTML(
     "beforeend",
