@@ -25,16 +25,19 @@ const galleryRef = document.querySelector(".js-gallery");
 // galleryRef.append(...galleryListing);
 // ---------------------------------------------------------------------------------
 // ДОБАВЛЕНИЕ РАЗМЕТКИ ВАРИАНТ 2
-const createGalleryElements = (image) => {
+const createGalleryElements = (image, indx) => {
   galleryRef.insertAdjacentHTML(
     "beforeend",
-    `<li class="gallery__item"><a class="gallery__link" href=${image.original}><img class="gallery__image" src=${image.preview} data-source=${image.original} alt=${image.description}></a></li>`
+    `<li class="gallery__item"><a class="gallery__link" href=${image.original}><img class="gallery__image" src=${image.preview} data-source=${image.original} data-index=${indx} alt=${image.description}></a></li>`
   );
 };
 
-const galleryListing = images.forEach((image) => createGalleryElements(image));
+const galleryListing = images.forEach((image, indx) =>
+  createGalleryElements(image, indx)
+);
 
 let originalImgUrl = "";
+let imgActiveIndx;
 
 const getBigImgUrl = (event) => {
   event.preventDefault();
@@ -49,8 +52,12 @@ const overlayRef = lightboxRef.querySelector(".lightbox__overlay");
 
 const openModal = () => {
   window.addEventListener("keydown", onEscPress);
+
   lightboxImgRef.setAttribute("src", `${originalImgUrl}`);
   lightboxRef.classList.toggle("is-open");
+  imgActiveIndx = +event.target.dataset.index;
+  window.addEventListener("keydown", onRightPress);
+  window.addEventListener("keydown", onLeftPress);
 };
 
 const closeModal = () => {
@@ -68,6 +75,28 @@ const onOverlayClick = (event) => {
 const onEscPress = (event) => {
   if (event.code === "Escape") {
     closeModal();
+  }
+};
+
+const onRightPress = (event) => {
+  if (event.code === "ArrowRight") {
+    lightboxImgRef.setAttribute("src", `${images[imgActiveIndx + 1].original}`);
+    imgActiveIndx += 1;
+  }
+  if (imgActiveIndx >= images.length - 1) {
+    window.removeEventListener("keydown", onRightPress);
+    window.addEventListener("keydown", onLeftPress);
+  }
+};
+
+const onLeftPress = (event) => {
+  if (event.code === "ArrowLeft") {
+    lightboxImgRef.setAttribute("src", `${images[imgActiveIndx - 1].original}`);
+    imgActiveIndx -= 1;
+  }
+  if (imgActiveIndx === 0) {
+    window.removeEventListener("keydown", onLeftPress);
+    window.addEventListener("keydown", onRightPress);
   }
 };
 
